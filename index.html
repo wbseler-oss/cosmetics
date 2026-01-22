@@ -1,106 +1,893 @@
 <!doctype html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Жирная кожа лица — гайд</title>
-  <meta name="description" content="Готовая система: диагностика → сценарий → уход → план на 30 дней. PDF-гайд." />
+  <meta name="description" content="Готовая система: диагностика → сценарии → уход → план на 30 дней. Уменьшает блеск, забитые поры и воспаления."/>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Близкий по ощущениям шрифт (можешь заменить) -->
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+
   <style>
-    /* 100% визуальное совпадение: мы показываем твой скрин как основу */
-    html, body { height: 100%; margin: 0; background: #0b0620; }
-    body { display: grid; place-items: center; }
+    :root{
+      --bg0:#070315;
+      --bg1:#120526;
+      --bg2:#1a0632;
 
-    /* Контейнер держит пропорции оригинала 1365×2048 */
-    .stage {
-      position: relative;
-      width: min(100vw, 980px);
-      aspect-ratio: 1365 / 2048;
-      overflow: hidden;
+      --violet:#7c3aed;
+      --pink:#ec4899;
+      --amber:#f59e0b;
+      --cyan:#22d3ee;
+
+      --glass: rgba(255,255,255,.08);
+      --glass2: rgba(255,255,255,.05);
+      --stroke: rgba(255,255,255,.14);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.68);
+      --muted2: rgba(255,255,255,.55);
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family: Manrope, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--text);
+      background: radial-gradient(1400px 700px at 18% 10%, rgba(124,58,237,.45), transparent 58%),
+                  radial-gradient(1200px 700px at 78% 18%, rgba(236,72,153,.33), transparent 60%),
+                  radial-gradient(1100px 700px at 55% 90%, rgba(34,211,238,.14), transparent 60%),
+                  linear-gradient(180deg, var(--bg0), var(--bg1) 55%, var(--bg0));
+      overflow-x:hidden;
+    }
+
+    /* звёздная пыль */
+    .stars{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      opacity:.75;
+      mix-blend-mode:screen;
+      filter: blur(.2px);
+      background:
+        radial-gradient(1px 1px at 10% 15%, rgba(255,255,255,.45), transparent 60%),
+        radial-gradient(1px 1px at 18% 55%, rgba(255,255,255,.25), transparent 60%),
+        radial-gradient(1.5px 1.5px at 35% 22%, rgba(255,255,255,.40), transparent 60%),
+        radial-gradient(1px 1px at 52% 40%, rgba(255,255,255,.25), transparent 60%),
+        radial-gradient(2px 2px at 68% 18%, rgba(255,255,255,.32), transparent 60%),
+        radial-gradient(1px 1px at 76% 66%, rgba(255,255,255,.20), transparent 60%),
+        radial-gradient(1.5px 1.5px at 88% 32%, rgba(255,255,255,.28), transparent 60%),
+        radial-gradient(1px 1px at 92% 82%, rgba(255,255,255,.18), transparent 60%);
+    }
+
+    .wrap{ max-width: 1120px; margin:0 auto; padding: 0 18px; }
+
+    /* glass */
+    .glass{
+      background: linear-gradient(180deg, var(--glass), var(--glass2));
+      border: 1px solid var(--stroke);
+      box-shadow: 0 26px 90px rgba(0,0,0,.45);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    .glow{
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,.10) inset,
+        0 26px 90px rgba(124,58,237,.22),
+        0 26px 90px rgba(236,72,153,.14);
+    }
+
+    /* header */
+    header{
+      padding: 18px 0 4px;
+      position: sticky;
+      top:0;
+      z-index:50;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      background: linear-gradient(180deg, rgba(7,3,21,.68), rgba(7,3,21,0));
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .nav{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 14px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      text-decoration:none;
+      color:var(--text);
+    }
+    .logo{
+      width:44px;height:44px;border-radius:16px;
+      display:grid;place-items:center;
+      font-weight:800;
+      letter-spacing:.5px;
+    }
+    .brand small{ display:block; color: var(--muted2); margin-top:2px; font-weight:600; }
+
+    .links{ display:flex; gap:18px; align-items:center; }
+    .links a{
+      color: var(--muted);
+      text-decoration:none;
+      font-weight:700;
+      font-size: 13px;
+      opacity:.9;
+    }
+    .links a:hover{ color: #fff; opacity:1; }
+    .hide-md{ display:none; }
+    @media (min-width: 860px){ .hide-md{ display:flex; } }
+
+    /* neon button */
+    .btn{
+      position:relative;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      padding: 14px 18px;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,.16);
+      text-decoration:none;
+      color:#fff;
+      font-weight:800;
+      letter-spacing:.2px;
+      cursor:pointer;
+      user-select:none;
+      background: linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,.06));
+      box-shadow: 0 18px 70px rgba(0,0,0,.45);
+      transition: transform .15s ease, filter .15s ease;
+    }
+    .btn:hover{ transform: translateY(-1px); filter: brightness(1.05); }
+    .btn:active{ transform: translateY(0px); }
+    .btn::before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      border-radius:999px;
+      background: linear-gradient(90deg, rgba(124,58,237,.95), rgba(236,72,153,.95), rgba(245,158,11,.9));
+      filter: blur(12px);
+      opacity:.55;
+      z-index:-1;
+      transition: opacity .2s ease;
+    }
+    .btn:hover::before{ opacity:.9; }
+
+    .btn.secondary{
+      background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.04));
+      font-weight:800;
+      color: rgba(255,255,255,.9);
+    }
+    .btn.secondary::before{ opacity:.28; filter: blur(14px); }
+
+    .hint{
+      color: var(--muted2);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    /* HERO layout */
+    .hero{
+      padding: 34px 0 22px;
+    }
+    .hero-grid{
+      display:grid;
+      gap: 18px;
+      align-items:stretch;
+    }
+    @media (min-width: 980px){
+      .hero-grid{
+        grid-template-columns: 1.05fr .95fr;
+        gap: 22px;
+      }
+    }
+
+    .hero-left{
+      padding: 18px 0;
+    }
+
+    .kicker{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-size: 13px;
+      font-weight: 700;
+      color: rgba(255,255,255,.86);
+    }
+    .dot{
+      width:8px;height:8px;border-radius:99px;
+      background: #34d399;
+      box-shadow: 0 0 24px rgba(52,211,153,.6);
+    }
+
+    h1{
+      margin: 14px 0 10px;
+      font-size: clamp(30px, 4vw, 46px);
+      line-height: 1.05;
+      letter-spacing: -.6px;
+    }
+    h1 .grad{
+      background: linear-gradient(90deg, rgba(255,255,255,.95), rgba(255,255,255,.75));
+      -webkit-background-clip: text;
+      background-clip:text;
+      color:transparent;
+    }
+    .subtitle{
+      color: rgba(255,255,255,.76);
+      font-size: 16px;
+      line-height: 1.65;
+      margin: 10px 0 18px;
+      max-width: 560px;
+    }
+
+    .cta-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap: 12px;
+      margin: 12px 0 10px;
+    }
+
+    /* scroll pill */
+    .scroll-pill{
+      margin-top: 16px;
+      display:inline-flex;
+      align-items:center;
+      gap:12px;
+      padding: 12px 16px;
+      border-radius: 999px;
+      color: rgba(255,255,255,.78);
+      text-decoration:none;
+      font-weight:800;
+      font-size: 13px;
+      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+      border:1px solid rgba(255,255,255,.12);
+    }
+    .scroll-pill span{
+      width:32px;height:32px;border-radius:999px;
+      display:grid;place-items:center;
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.10);
+    }
+
+    /* HERO right card */
+    .hero-right{
+      border-radius: 28px;
+      padding: 18px;
+      position:relative;
+      overflow:hidden;
+    }
+    .hero-right::before{
+      content:"";
+      position:absolute;
+      inset:-120px;
+      background: radial-gradient(700px 320px at 60% 15%, rgba(255,255,255,.22), transparent 60%);
+      opacity:.35;
+      pointer-events:none;
+    }
+
+    .portrait{
+      position:relative;
+      border-radius: 22px;
+      overflow:hidden;
+      border: 1px solid rgba(255,255,255,.14);
+      background:
+        radial-gradient(900px 520px at 50% 10%, rgba(255,255,255,.22), transparent 60%),
+        linear-gradient(180deg, rgba(124,58,237,.18), rgba(236,72,153,.10));
+      min-height: 360px;
+    }
+
+    /* Заглушка под портрет: заменишь на свою картинку */
+    .portrait .img{
+      position:absolute; inset:0;
+      background:
+        radial-gradient(120px 120px at 68% 30%, rgba(255,255,255,.22), transparent 62%),
+        radial-gradient(220px 220px at 62% 36%, rgba(255,255,255,.10), transparent 64%),
+        radial-gradient(380px 380px at 68% 45%, rgba(255,255,255,.05), transparent 70%),
+        linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,.55));
+    }
+
+    /* Если хочешь портрет как в макете — просто раскомментируй и положи image/portrait.jpg
+       .portrait .img{ background:url('./images/portrait.jpg') center/cover no-repeat; }
+    */
+
+    .bubble{
+      position:absolute;
+      right: 18px;
+      bottom: 18px;
+      width: min(320px, 92%);
       border-radius: 18px;
-      box-shadow: 0 30px 120px rgba(0,0,0,.55);
-      background: #0b0620;
+      padding: 14px 14px 12px;
+    }
+    .bubble h3{
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.15;
+      letter-spacing: -.2px;
+    }
+    .bubble p{
+      margin: 6px 0 0;
+      color: rgba(255,255,255,.72);
+      font-size: 13px;
+      line-height: 1.45;
     }
 
-    .stage img {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: contain; /* чтобы никогда не обрезалось */
-      display: block;
-      user-select: none;
-      -webkit-user-drag: none;
-      pointer-events: none; /* клики идут по зонам ниже */
+    /* Section titles like макет */
+    .section-title{
+      text-align:center;
+      margin: 34px 0 18px;
+      font-size: clamp(22px, 3.2vw, 34px);
+      letter-spacing: -.5px;
+      font-weight: 800;
     }
 
-    /* Кликабельные зоны */
-    .hotspot {
-      position: absolute;
-      display: block;
-      border-radius: 9999px;
-      /* Для отладки можно включить подсветку:
-         background: rgba(255, 0, 0, .18); outline: 2px solid rgba(255,0,0,.35);
-      */
-      background: transparent;
-      outline: none;
+    /* “Что вы получите” icons row */
+    .benefits{
+      margin-top: 10px;
+      display:grid;
+      gap: 16px;
+    }
+    @media (min-width: 760px){
+      .benefits{
+        grid-template-columns: repeat(5, 1fr);
+      }
     }
 
-    /* Доступность для клавиатуры */
-    .hotspot:focus-visible {
-      outline: 3px solid rgba(255,255,255,.8);
-      outline-offset: 3px;
-      background: rgba(255,255,255,.08);
+    .benefit{
+      text-align:center;
+      padding: 10px 6px;
+    }
+    .orb{
+      width: 104px;
+      height: 104px;
+      margin: 0 auto 10px;
+      border-radius: 999px;
+      position:relative;
+      background:
+        radial-gradient(circle at 30% 25%, rgba(255,255,255,.30), rgba(255,255,255,.08) 42%, rgba(255,255,255,.03) 68%),
+        linear-gradient(180deg, rgba(124,58,237,.24), rgba(236,72,153,.12));
+      border: 1px solid rgba(255,255,255,.14);
+      box-shadow:
+        0 26px 70px rgba(0,0,0,.42),
+        0 0 42px rgba(124,58,237,.22),
+        0 0 42px rgba(236,72,153,.14);
+      overflow:hidden;
+    }
+    .orb::after{
+      content:"";
+      position:absolute;
+      inset:-20px;
+      background: radial-gradient(200px 140px at 45% 15%, rgba(255,255,255,.25), transparent 62%);
+      opacity:.55;
+    }
+    .orb svg{
+      position:absolute;
+      inset: 22px;
+      width: calc(100% - 44px);
+      height: calc(100% - 44px);
+      filter: drop-shadow(0 10px 26px rgba(0,0,0,.45)) drop-shadow(0 0 18px rgba(236,72,153,.25));
+      opacity:.98;
+    }
+    .benefit .name{
+      font-weight: 800;
+      font-size: 14px;
+      margin-top: 6px;
+    }
+    .benefit .desc{
+      color: rgba(255,255,255,.62);
+      font-size: 12px;
+      line-height: 1.35;
+      margin-top: 4px;
+      padding: 0 6px;
     }
 
-    /* На узких экранах делаем без закруглений, чтобы не резало */
-    @media (max-width: 520px){
-      .stage { width: 100vw; border-radius: 0; }
+    /* “Как выглядит гайд + CTA” */
+    .guide-block{
+      margin-top: 22px;
+      border-radius: 28px;
+      padding: 18px;
     }
+    .guide-grid{
+      display:grid;
+      gap: 16px;
+      align-items:stretch;
+    }
+    @media (min-width: 980px){
+      .guide-grid{
+        grid-template-columns: 1.05fr .95fr;
+        gap: 18px;
+      }
+    }
+
+    .guide-left{
+      border-radius: 22px;
+      padding: 18px;
+      position:relative;
+      overflow:hidden;
+      min-height: 280px;
+    }
+
+    /* Превью гайда (заглушка под твои картинки) */
+    .mockup{
+      position:relative;
+      height: 260px;
+      border-radius: 18px;
+      overflow:hidden;
+      border: 1px solid rgba(255,255,255,.14);
+      background:
+        radial-gradient(420px 220px at 30% 30%, rgba(255,255,255,.16), transparent 60%),
+        linear-gradient(180deg, rgba(124,58,237,.16), rgba(0,0,0,.35));
+    }
+    .paper{
+      position:absolute;
+      left: 22px;
+      bottom: 18px;
+      width: 44%;
+      height: 78%;
+      border-radius: 14px;
+      background: linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,.06));
+      border: 1px solid rgba(255,255,255,.16);
+      transform: rotate(-10deg);
+      box-shadow: 0 18px 70px rgba(0,0,0,.45);
+    }
+    .paper:nth-child(2){
+      left: 58px;
+      transform: rotate(-4deg);
+      opacity:.9;
+    }
+    .cover{
+      position:absolute;
+      left: 110px;
+      bottom: 14px;
+      width: 48%;
+      height: 82%;
+      border-radius: 16px;
+      background:
+        radial-gradient(220px 150px at 35% 20%, rgba(255,255,255,.22), transparent 62%),
+        linear-gradient(180deg, rgba(236,72,153,.22), rgba(124,58,237,.12));
+      border: 1px solid rgba(255,255,255,.18);
+      box-shadow:
+        0 20px 80px rgba(0,0,0,.55),
+        0 0 42px rgba(236,72,153,.18);
+      overflow:hidden;
+    }
+    .cover .title{
+      position:absolute;
+      left: 16px;
+      top: 14px;
+      font-weight: 900;
+      letter-spacing: -.4px;
+      line-height: 1.0;
+    }
+    .cover .title small{
+      display:block;
+      font-weight: 700;
+      font-size: 12px;
+      opacity:.8;
+      margin-top: 6px;
+    }
+    .cover .swirl{
+      position:absolute;
+      left:-40px; bottom:-60px;
+      width: 180px; height:180px;
+      border-radius: 999px;
+      background:
+        radial-gradient(circle at 35% 35%, rgba(34,211,238,.35), transparent 62%),
+        radial-gradient(circle at 60% 55%, rgba(245,158,11,.28), transparent 60%),
+        radial-gradient(circle at 45% 50%, rgba(255,255,255,.14), transparent 60%);
+      filter: blur(0px);
+      transform: rotate(18deg);
+      opacity:.9;
+    }
+
+    .guide-right{
+      border-radius: 22px;
+      padding: 18px;
+      position:relative;
+      overflow:hidden;
+    }
+    .price{
+      font-size: 34px;
+      font-weight: 900;
+      letter-spacing: -.6px;
+    }
+    .price small{
+      font-size: 14px;
+      font-weight: 800;
+      color: rgba(255,255,255,.70);
+      margin-left: 8px;
+    }
+    .check{
+      margin: 12px 0 0;
+      padding:0;
+      list-style:none;
+      display:grid;
+      gap: 10px;
+      color: rgba(255,255,255,.78);
+      font-weight: 700;
+      font-size: 14px;
+    }
+    .check li{ display:flex; gap:10px; align-items:flex-start; }
+    .check b{
+      color:#34d399;
+      text-shadow: 0 0 18px rgba(52,211,153,.35);
+    }
+
+    /* bottom pill */
+    .bottom-pill{
+      margin: 18px auto 44px;
+      max-width: 700px;
+      text-align:center;
+      border-radius: 999px;
+      padding: 14px 16px;
+      color: rgba(255,255,255,.78);
+      font-weight: 800;
+      font-size: 14px;
+    }
+
+    /* modal quiz */
+    .modal{
+      position:fixed;
+      inset:0;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding: 18px;
+      z-index: 100;
+    }
+    .modal.show{ display:flex; }
+    .modal .backdrop{
+      position:absolute;
+      inset:0;
+      background: rgba(0,0,0,.64);
+    }
+    .modal .panel{
+      position:relative;
+      width: min(760px, 96vw);
+      border-radius: 24px;
+      padding: 16px;
+    }
+    .panel-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+      padding: 6px 8px 10px;
+    }
+    .x{
+      width: 42px; height:42px;
+      border-radius: 14px;
+      display:grid; place-items:center;
+      cursor:pointer;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      font-weight: 900;
+      color: #fff;
+    }
+    .quiz{
+      border-radius: 18px;
+      padding: 14px;
+    }
+    .quiz p{ margin: 0 0 10px; color: rgba(255,255,255,.72); }
+    .quiz .q{
+      display:grid;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .opt{
+      border-radius: 16px;
+      padding: 12px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: rgba(255,255,255,.88);
+      font-weight: 700;
+      cursor:pointer;
+    }
+    .opt input{ transform: translateY(1px); }
+    .quiz-actions{ display:flex; flex-wrap:wrap; gap: 10px; margin-top: 12px; }
+
+    /* helper */
+    .muted{ color: var(--muted); }
+    .muted2{ color: var(--muted2); }
   </style>
 </head>
 
 <body>
-  <div class="stage" aria-label="Лендинг гайда по жирной коже">
-    <!-- 1) Положи рядом файл landing.png -->
-    <img src="./landing.png" alt="" />
+  <div class="stars" aria-hidden="true"></div>
 
-    <!-- ✅ 1) Кнопка: Пройти тест (1 мин)
-         Координаты заданы в процентах от оригинала 1365×2048 -->
-    <a class="hotspot"
-       href="https://example.com/quiz"
-       target="_blank" rel="noopener"
-       style="left:6.6%; top:28.6%; width:38.1%; height:4.7%;"
-       aria-label="Пройти тест (1 мин)">
-    </a>
+  <header>
+    <div class="wrap nav">
+      <a class="brand" href="#">
+        <div class="logo glass glow">G</div>
+        <div>
+          <div style="font-weight:900; line-height:1;">Гайд по уходу</div>
+          <small>Жирная кожа • 30 дней</small>
+        </div>
+      </a>
 
-    <!-- ✅ 2) Кнопка: Скачать полный PDF (вверху) -->
-    <a class="hotspot"
-       href="https://example.com/pay"
-       target="_blank" rel="noopener"
-       style="left:8.8%; top:34.2%; width:35.2%; height:4.2%;"
-       aria-label="Скачать полный PDF">
-    </a>
+      <nav class="links hide-md" aria-label="Навигация">
+        <a href="#inside">Что внутри</a>
+        <a href="#benefits">Что получите</a>
+        <a href="#price">Цена</a>
+      </nav>
 
-    <!-- ✅ 3) Плашка: Листай вниз -->
-    <a class="hotspot"
-       href="#inside"
-       style="left:8.8%; top:42.5%; width:41.0%; height:3.9%; border-radius: 18px;"
-       aria-label="Листай вниз">
-    </a>
+      <a class="btn secondary" href="#price">Скачать PDF</a>
+    </div>
+  </header>
 
-    <!-- ✅ 4) Большой блок справа: Скачать полный PDF (оплата 500 ₽) -->
-    <a class="hotspot"
-       href="https://example.com/pay"
-       target="_blank" rel="noopener"
-       style="left:44.7%; top:71.3%; width:51.3%; height:15.6%; border-radius: 28px;"
-       aria-label="Скачать полный PDF (оплата 500 ₽)">
-    </a>
+  <main class="wrap">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-grid">
+        <div class="hero-left">
+          <div class="kicker glass">
+            <span class="dot"></span>
+            Вместо хаоса советов — готовая система:
+            <span class="muted2">диагностика → сценарий → уход → план на 30 дней</span>
+          </div>
 
-    <!-- якорь для “листай вниз” -->
-    <span id="inside" style="position:absolute; left:0; top:52%; width:1px; height:1px;"></span>
+          <h1>
+            <span class="grad">Жирная кожа лица:</span><br/>
+            почему быстро жирнеет<br/>и что делать
+          </h1>
+
+          <p class="subtitle">
+            Вы перестанете “сушить” и начнёте делать то, что реально уменьшает блеск,
+            забитые поры и воспаления.
+          </p>
+
+          <div class="cta-row">
+            <button class="btn" id="openQuiz" type="button">➜ Пройти тест (1 мин)</button>
+            <a class="btn secondary" href="#price">Скачать полный PDF</a>
+          </div>
+
+          <div class="hint">
+            * Материал информационный. При боли / отёке / мокнутии / сильном зуде — лучше к дерматологу.
+          </div>
+
+          <a class="scroll-pill glass" href="#inside">
+            <span>↓</span> ЛИСТАЙ ВНИЗ — покажу “что внутри” и как это работает
+          </a>
+        </div>
+
+        <div class="hero-right glass glow">
+          <div class="portrait">
+            <div class="img" aria-hidden="true"></div>
+
+            <div class="bubble glass glow">
+              <h3>«Почему блестит<br/>уже через 2 часа?»</h3>
+              <p>Сценарий чаще не один —<br/>мы найдём ваш.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- anchor -->
+    <div id="inside"></div>
+
+    <!-- BENEFITS -->
+    <h2 class="section-title" id="benefits">Что вы получите в итоге</h2>
+
+    <section class="benefits">
+      <!-- 1 -->
+      <div class="benefit">
+        <div class="orb" aria-hidden="true">
+          <!-- compass -->
+          <svg viewBox="0 0 64 64" fill="none">
+            <path d="M32 58c14.36 0 26-11.64 26-26S46.36 6 32 6 6 17.64 6 32s11.64 26 26 26Z" stroke="rgba(255,255,255,.8)" stroke-width="2"/>
+            <path d="M38.8 25.2 27 29.1l-3.9 11.8 11.8-3.9 3.9-11.8Z" fill="rgba(34,211,238,.55)" stroke="rgba(255,255,255,.75)" stroke-width="1.5"/>
+            <path d="M32 14v4M32 46v4M14 32h4M46 32h4" stroke="rgba(255,255,255,.55)" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="name">Диагностика</div>
+        <div class="desc">Быстрый тест + маркеры, чтобы понять тип жирности</div>
+      </div>
+
+      <!-- 2 -->
+      <div class="benefit">
+        <div class="orb" aria-hidden="true">
+          <!-- flasks -->
+          <svg viewBox="0 0 64 64" fill="none">
+            <path d="M24 10v12l-9 16a10 10 0 0 0 8.7 15h6.6A10 10 0 0 0 39 38l-9-16V10" stroke="rgba(255,255,255,.8)" stroke-width="2" stroke-linecap="round"/>
+            <path d="M41 12v10l7 12a8.5 8.5 0 0 1-7.4 12.7h-5.2A8.5 8.5 0 0 1 27 34l7-12V12" stroke="rgba(255,255,255,.65)" stroke-width="2" opacity=".9"/>
+            <path d="M18 39h18" stroke="rgba(255,255,255,.45)" stroke-width="2" stroke-linecap="round"/>
+            <path d="M33 33h16" stroke="rgba(255,255,255,.35)" stroke-width="2" stroke-linecap="round"/>
+            <path d="M19 41c2-4 6-6 10-6s8 2 10 6" stroke="rgba(236,72,153,.55)" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="name">База ухода</div>
+        <div class="desc">Мягкое очищение + восстановление барьера</div>
+      </div>
+
+      <!-- 3 -->
+      <div class="benefit">
+        <div class="orb" aria-hidden="true">
+          <!-- beaker -->
+          <svg viewBox="0 0 64 64" fill="none">
+            <path d="M24 10v12l-10 18a10 10 0 0 0 8.7 15h18.6A10 10 0 0 0 48 40L38 22V10" stroke="rgba(255,255,255,.8)" stroke-width="2" stroke-linecap="round"/>
+            <path d="M18 34h28" stroke="rgba(255,255,255,.45)" stroke-width="2" stroke-linecap="round"/>
+            <path d="M20 44c3-6 9-9 14-9s11 3 14 9" stroke="rgba(34,211,238,.55)" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="28" cy="41" r="2" fill="rgba(245,158,11,.75)"/>
+            <circle cx="38" cy="39" r="1.7" fill="rgba(245,158,11,.65)"/>
+          </svg>
+        </div>
+        <div class="name">Сценарий A/B/C</div>
+        <div class="desc">Что у тебя происходит и как действовать</div>
+      </div>
+
+      <!-- 4 -->
+      <div class="benefit">
+        <div class="orb" aria-hidden="true">
+          <!-- SPF tube -->
+          <svg viewBox="0 0 64 64" fill="none">
+            <path d="M22 12h20l-2 8H24l-2-8Z" fill="rgba(255,255,255,.12)" stroke="rgba(255,255,255,.7)" stroke-width="2"/>
+            <path d="M24 20h16l2 28a8 8 0 0 1-8 8H30a8 8 0 0 1-8-8l2-28Z" fill="rgba(236,72,153,.18)" stroke="rgba(255,255,255,.75)" stroke-width="2"/>
+            <path d="M26 34h12" stroke="rgba(255,255,255,.45)" stroke-width="2" stroke-linecap="round"/>
+            <path d="M28 40h8" stroke="rgba(255,255,255,.35)" stroke-width="2" stroke-linecap="round"/>
+            <path d="M28 46h8" stroke="rgba(255,255,255,.35)" stroke-width="2" stroke-linecap="round"/>
+            <text x="32" y="33" text-anchor="middle" font-size="10" fill="rgba(255,255,255,.85)" font-weight="800">SPF</text>
+          </svg>
+        </div>
+        <div class="name">Как SPF и смывать</div>
+        <div class="desc">Чтобы не раздражать и не усиливать блеск</div>
+      </div>
+
+      <!-- 5 -->
+      <div class="benefit">
+        <div class="orb" aria-hidden="true">
+          <!-- warning / triggers -->
+          <svg viewBox="0 0 64 64" fill="none">
+            <path d="M32 8 58 54H6L32 8Z" fill="rgba(245,158,11,.18)" stroke="rgba(255,255,255,.75)" stroke-width="2"/>
+            <path d="M32 24v14" stroke="rgba(255,255,255,.85)" stroke-width="3" stroke-linecap="round"/>
+            <circle cx="32" cy="44" r="2.4" fill="rgba(255,255,255,.9)"/>
+            <path d="M14 54c6-6 30-6 36 0" stroke="rgba(236,72,153,.35)" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="name">Триггеры</div>
+        <div class="desc">Если жжёт/сыпет/хуже — что делать и что убрать</div>
+      </div>
+    </section>
+
+    <!-- GUIDE + PRICE -->
+    <h2 class="section-title" style="margin-top:42px;">Как выглядит гайд <span style="font-weight:800; color: rgba(245,158,11,.95);">(оплата 500 ₽)</span></h2>
+
+    <section class="guide-block glass glow" id="price">
+      <div class="guide-grid">
+        <div class="guide-left glass">
+          <div class="muted" style="font-weight:800; margin-bottom:10px;">
+            Превью (замени на свои картинки, если есть)
+          </div>
+
+          <div class="mockup">
+            <div class="paper"></div>
+            <div class="paper"></div>
+            <div class="cover">
+              <div class="title">
+                Жирная<br/>кожа
+                <small>диагностика • уход • 30 дней</small>
+              </div>
+              <div class="swirl" aria-hidden="true"></div>
+            </div>
+          </div>
+
+          <div class="hint" style="margin-top:10px;">
+            Хочешь как в твоём макете 1-в-1 по превью — просто положи изображения и я подключу их в нужные места.
+          </div>
+        </div>
+
+        <div class="guide-right glass">
+          <div style="display:flex; align-items:flex-end; justify-content:space-between; gap:10px;">
+            <div>
+              <div style="font-size:20px; font-weight:900; letter-spacing:-.3px;">
+                Скачать полный PDF
+              </div>
+              <div class="muted2" style="margin-top:6px;">Скачивание сразу после оплаты</div>
+            </div>
+            <div class="price">500 ₽<small>оплата</small></div>
+          </div>
+
+          <ul class="check">
+            <li><b>✔</b> Диагностика: что именно у тебя</li>
+            <li><b>✔</b> Сценарии A/B/C: что делать и как идти</li>
+            <li><b>✔</b> База ухода без агрессивных ошибок</li>
+            <li><b>✔</b> SPF + как смывать без раздражения</li>
+            <li><b>✔</b> План на 30 дней + триггеры</li>
+          </ul>
+
+          <!-- ВАЖНО: поставь свою ссылку -->
+          <div style="margin-top:16px; display:flex; gap:12px; flex-wrap:wrap;">
+            <a class="btn" href="https://example.com/pay" target="_blank" rel="noopener">Скачать полный PDF</a>
+            <button class="btn secondary" id="openQuiz2" type="button">Пройти тест (1 мин)</button>
+          </div>
+
+          <div class="hint" style="margin-top:10px;">
+            * Если сильное воспаление, боль, мокнутие или выраженный зуд — лучше к дерматологу очно.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="bottom-pill glass">
+      ↓ Почему это купят — что внутри и зачем это работает
+    </div>
+  </main>
+
+  <!-- MODAL: мини-тест -->
+  <div class="modal" id="modal">
+    <div class="backdrop" id="backdrop"></div>
+    <div class="panel glass glow" role="dialog" aria-modal="true" aria-labelledby="quizTitle">
+      <div class="panel-head">
+        <div>
+          <div class="muted2" style="font-weight:800; font-size:13px;">Тест за 1 минуту</div>
+          <div id="quizTitle" style="font-weight:900; font-size:20px;">Самодиагностика</div>
+        </div>
+        <button class="x" id="close" aria-label="Закрыть">✕</button>
+      </div>
+
+      <div class="quiz glass">
+        <p><b>1)</b> Умойтесь мягко (без скраба), ничего не наносите.</p>
+        <p><b>2)</b> Подождите 30–60 минут.</p>
+        <p><b>3)</b> Ответьте:</p>
+
+        <div class="q">
+          <label class="opt">
+            <input type="radio" name="q1"> Есть стянутость/сухость, хочется “намазаться”
+          </label>
+          <label class="opt">
+            <input type="radio" name="q1"> Нет стянутости, но быстро появляется блеск
+          </label>
+          <label class="opt">
+            <input type="radio" name="q1"> Есть и стянутость, и блеск/поры
+          </label>
+        </div>
+
+        <div class="quiz-actions">
+          <a class="btn" href="#price" onclick="closeModal()">Перейти к PDF (500 ₽)</a>
+          <a class="btn secondary" href="https://example.com/quiz" target="_blank" rel="noopener">Открыть полный тест</a>
+          <button class="btn secondary" type="button" onclick="closeModal()">Закрыть</button>
+        </div>
+
+        <div class="hint" style="margin-top:10px;">
+          Это мини-версия. В PDF — расшифровка, сценарии и план на 30 дней.
+        </div>
+      </div>
+    </div>
   </div>
 
-  <!-- Если хочешь, можно ниже добавить реальные текстовые блоки для SEO,
-       но визуально 1-в-1 уже есть благодаря изображению. -->
+  <script>
+    const modal = document.getElementById('modal');
+    const backdrop = document.getElementById('backdrop');
+    const closeBtn = document.getElementById('close');
+
+    const open1 = document.getElementById('openQuiz');
+    const open2 = document.getElementById('openQuiz2');
+
+    function openModal(){
+      modal.classList.add('show');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModal(){
+      modal.classList.remove('show');
+      document.body.style.overflow = '';
+    }
+    window.closeModal = closeModal;
+
+    open1.addEventListener('click', openModal);
+    open2.addEventListener('click', openModal);
+    closeBtn.addEventListener('click', closeModal);
+    backdrop.addEventListener('click', closeModal);
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.classList.contains('show')) closeModal();
+    });
+  </script>
 </body>
 </html>
