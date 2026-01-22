@@ -3,604 +3,104 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Гайд: Жирная кожа лица — почему быстро жирнеет и что делать</title>
-  <meta name="description" content="Готовая система: диагностика → сценарий → уход → план на 30 дней. Уменьшает блеск, забитые поры и воспаления." />
-  <meta property="og:title" content="Жирная кожа лица: почему быстро жирнеет и что делать" />
-  <meta property="og:description" content="Готовая система ухода + тест за 1 минуту. PDF-гайд за 500 ₽." />
-  <meta name="theme-color" content="#6d28d9" />
-
-  <!-- Tailwind (быстро и красиво). Можно удалить и заменить на свой CSS, если не хотите CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-
+  <title>Жирная кожа лица — гайд</title>
+  <meta name="description" content="Готовая система: диагностика → сценарий → уход → план на 30 дней. PDF-гайд." />
   <style>
-    /* Космический фон + “пыль” */
-    :root{
-      --bg1:#0b0620;
-      --bg2:#1a0b3c;
-      --violet:#7c3aed;
-      --pink:#ec4899;
-      --amber:#f59e0b;
-      --cyan:#22d3ee;
+    /* 100% визуальное совпадение: мы показываем твой скрин как основу */
+    html, body { height: 100%; margin: 0; background: #0b0620; }
+    body { display: grid; place-items: center; }
+
+    /* Контейнер держит пропорции оригинала 1365×2048 */
+    .stage {
+      position: relative;
+      width: min(100vw, 980px);
+      aspect-ratio: 1365 / 2048;
+      overflow: hidden;
+      border-radius: 18px;
+      box-shadow: 0 30px 120px rgba(0,0,0,.55);
+      background: #0b0620;
     }
 
-    body{
-      background: radial-gradient(1200px 600px at 20% 10%, rgba(124,58,237,.45), transparent 55%),
-                  radial-gradient(900px 500px at 80% 25%, rgba(236,72,153,.35), transparent 55%),
-                  radial-gradient(1200px 700px at 50% 95%, rgba(34,211,238,.18), transparent 60%),
-                  linear-gradient(180deg, var(--bg1), var(--bg2) 70%, #0b0620);
-      color:#fff;
-      overflow-x:hidden;
+    .stage img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain; /* чтобы никогда не обрезалось */
+      display: block;
+      user-select: none;
+      -webkit-user-drag: none;
+      pointer-events: none; /* клики идут по зонам ниже */
     }
 
-    .starfield::before,
-    .starfield::after{
-      content:"";
-      position:absolute;
-      inset:-200px;
-      background:
-        radial-gradient(2px 2px at 10% 20%, rgba(255,255,255,.65), transparent 60%),
-        radial-gradient(1px 1px at 25% 80%, rgba(255,255,255,.5), transparent 60%),
-        radial-gradient(1.5px 1.5px at 70% 30%, rgba(255,255,255,.55), transparent 60%),
-        radial-gradient(1px 1px at 85% 75%, rgba(255,255,255,.45), transparent 60%),
-        radial-gradient(2px 2px at 55% 55%, rgba(255,255,255,.35), transparent 60%),
-        radial-gradient(1px 1px at 40% 15%, rgba(255,255,255,.35), transparent 60%),
-        radial-gradient(1.5px 1.5px at 15% 60%, rgba(255,255,255,.35), transparent 60%),
-        radial-gradient(1px 1px at 95% 10%, rgba(255,255,255,.3), transparent 60%);
-      opacity:.55;
-      filter: blur(.1px);
-      pointer-events:none;
-      transform: translateZ(0);
-    }
-    .starfield::after{
-      opacity:.25;
-      filter: blur(.6px);
-      transform: scale(1.2);
+    /* Кликабельные зоны */
+    .hotspot {
+      position: absolute;
+      display: block;
+      border-radius: 9999px;
+      /* Для отладки можно включить подсветку:
+         background: rgba(255, 0, 0, .18); outline: 2px solid rgba(255,0,0,.35);
+      */
+      background: transparent;
+      outline: none;
     }
 
-    /* Glow cards */
-    .glass{
-      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
-      border: 1px solid rgba(255,255,255,.12);
-      box-shadow: 0 20px 70px rgba(0,0,0,.35);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-    }
-    .glow{
-      box-shadow:
-        0 0 0 1px rgba(255,255,255,.10) inset,
-        0 18px 60px rgba(124,58,237,.22),
-        0 18px 60px rgba(236,72,153,.12);
+    /* Доступность для клавиатуры */
+    .hotspot:focus-visible {
+      outline: 3px solid rgba(255,255,255,.8);
+      outline-offset: 3px;
+      background: rgba(255,255,255,.08);
     }
 
-    /* Кнопки как на “неоне” */
-    .btn-neon{
-      position:relative;
-      isolation:isolate;
+    /* На узких экранах делаем без закруглений, чтобы не резало */
+    @media (max-width: 520px){
+      .stage { width: 100vw; border-radius: 0; }
     }
-    .btn-neon::before{
-      content:"";
-      position:absolute;
-      inset:-2px;
-      border-radius:9999px;
-      background: linear-gradient(90deg, rgba(124,58,237,.9), rgba(236,72,153,.9), rgba(245,158,11,.85));
-      filter: blur(10px);
-      opacity:.55;
-      z-index:-1;
-      transition: opacity .2s ease;
-    }
-    .btn-neon:hover::before{ opacity:.9; }
-
-    /* Иконки-баблы */
-    .bubble{
-      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.25), rgba(255,255,255,.06) 45%, rgba(255,255,255,.02) 70%),
-                  linear-gradient(180deg, rgba(124,58,237,.22), rgba(236,72,153,.10));
-      border: 1px solid rgba(255,255,255,.12);
-      box-shadow: 0 20px 80px rgba(0,0,0,.35);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-    }
-
-    /* Плавная анимация плавающих элементов */
-    @keyframes floaty{ 0%{transform:translateY(0)} 50%{transform:translateY(-10px)} 100%{transform:translateY(0)} }
-    .floaty{ animation: floaty 6s ease-in-out infinite; }
-
-    /* Якорь для “листай вниз” */
-    html{ scroll-behavior:smooth; }
   </style>
 </head>
 
 <body>
-  <div class="relative starfield">
-    <!-- Верхняя навигация -->
-    <header class="relative z-10">
-      <div class="mx-auto max-w-6xl px-4 py-6 flex items-center justify-between">
-        <a href="#" class="flex items-center gap-3">
-          <div class="h-10 w-10 rounded-2xl glass glow grid place-items-center">
-            <span class="text-lg font-black">G</span>
-          </div>
-          <div class="leading-tight">
-            <div class="font-semibold">Гайд по уходу</div>
-            <div class="text-xs text-white/60">Жирная кожа • 30 дней</div>
-          </div>
-        </a>
+  <div class="stage" aria-label="Лендинг гайда по жирной коже">
+    <!-- 1) Положи рядом файл landing.png -->
+    <img src="./landing.png" alt="" />
 
-        <nav class="hidden md:flex items-center gap-6 text-sm text-white/75">
-          <a class="hover:text-white transition" href="#what">Что внутри</a>
-          <a class="hover:text-white transition" href="#result">Что получите</a>
-          <a class="hover:text-white transition" href="#price">Цена</a>
-          <a class="hover:text-white transition" href="#faq">FAQ</a>
-        </nav>
+    <!-- ✅ 1) Кнопка: Пройти тест (1 мин)
+         Координаты заданы в процентах от оригинала 1365×2048 -->
+    <a class="hotspot"
+       href="https://example.com/quiz"
+       target="_blank" rel="noopener"
+       style="left:6.6%; top:28.6%; width:38.1%; height:4.7%;"
+       aria-label="Пройти тест (1 мин)">
+    </a>
 
-        <a href="#price" class="hidden sm:inline-flex btn-neon rounded-full px-4 py-2 glass glow text-sm font-semibold">
-          Скачать PDF
-        </a>
-      </div>
-    </header>
+    <!-- ✅ 2) Кнопка: Скачать полный PDF (вверху) -->
+    <a class="hotspot"
+       href="https://example.com/pay"
+       target="_blank" rel="noopener"
+       style="left:8.8%; top:34.2%; width:35.2%; height:4.2%;"
+       aria-label="Скачать полный PDF">
+    </a>
 
-    <!-- HERO -->
-    <main class="relative z-10">
-      <section class="mx-auto max-w-6xl px-4 pt-6 pb-10 md:pt-10 md:pb-16">
-        <div class="grid lg:grid-cols-2 gap-8 items-center">
-          <!-- Текст -->
-          <div>
-            <p class="inline-flex items-center gap-2 rounded-full glass px-4 py-2 text-sm text-white/80">
-              <span class="h-2 w-2 rounded-full bg-emerald-400"></span>
-              Вместо хаоса советов — готовая система
-            </p>
+    <!-- ✅ 3) Плашка: Листай вниз -->
+    <a class="hotspot"
+       href="#inside"
+       style="left:8.8%; top:42.5%; width:41.0%; height:3.9%; border-radius: 18px;"
+       aria-label="Листай вниз">
+    </a>
 
-            <h1 class="mt-5 text-4xl md:text-5xl font-extrabold leading-tight">
-              <span class="text-white">Жирная кожа лица:</span>
-              <span class="block bg-gradient-to-r from-violet-300 via-pink-300 to-amber-200 bg-clip-text text-transparent">
-                почему быстро жирнеет и что делать
-              </span>
-            </h1>
+    <!-- ✅ 4) Большой блок справа: Скачать полный PDF (оплата 500 ₽) -->
+    <a class="hotspot"
+       href="https://example.com/pay"
+       target="_blank" rel="noopener"
+       style="left:44.7%; top:71.3%; width:51.3%; height:15.6%; border-radius: 28px;"
+       aria-label="Скачать полный PDF (оплата 500 ₽)">
+    </a>
 
-            <p class="mt-5 text-white/75 text-lg leading-relaxed">
-              Диагностика → сценарий → уход → план на 30 дней.
-              Вы перестанете “сушить” и начнёте делать то, что реально уменьшает блеск,
-              забитые поры и воспаления.
-            </p>
-
-            <div class="mt-7 flex flex-col sm:flex-row gap-3">
-              <button
-                class="btn-neon rounded-full px-6 py-3 glass glow text-base font-semibold"
-                data-open="quiz"
-              >
-                ➜ Пройти тест (1 мин)
-              </button>
-
-              <a href="#price" class="rounded-full px-6 py-3 glass text-base font-semibold text-white/90 hover:text-white hover:glow transition">
-                Скачать полный PDF
-              </a>
-            </div>
-
-            <p class="mt-4 text-sm text-white/55">
-              * Материал информационный. При боли / отёке / мокнутии / сильном зуде — лучше к дерматологу.
-            </p>
-
-            <a href="#what" class="mt-8 inline-flex items-center gap-2 text-sm text-white/70 hover:text-white transition">
-              <span class="inline-grid place-items-center h-8 w-8 rounded-full glass">↓</span>
-              Листай вниз — покажу “что внутри” и как это работает
-            </a>
-          </div>
-
-          <!-- Визуал -->
-          <div class="relative">
-            <div class="absolute -top-10 -left-10 h-40 w-40 rounded-full blur-3xl opacity-40"
-                 style="background: radial-gradient(circle, rgba(236,72,153,.9), transparent 60%);"></div>
-            <div class="absolute -bottom-12 -right-10 h-48 w-48 rounded-full blur-3xl opacity-35"
-                 style="background: radial-gradient(circle, rgba(124,58,237,.9), transparent 60%);"></div>
-
-            <div class="glass glow rounded-3xl p-5 md:p-7 relative overflow-hidden">
-              <div class="absolute inset-0 opacity-25"
-                   style="background: radial-gradient(800px 300px at 60% 20%, rgba(255,255,255,.25), transparent 60%);"></div>
-
-              <!-- “Фото” — заменено на стильный SVG-портрет-заглушку -->
-              <div class="relative rounded-2xl overflow-hidden bubble p-6 md:p-8">
-                <div class="flex items-start justify-between gap-4">
-                  <div class="max-w-xs">
-                    <p class="text-xs text-white/70">Мини-скрипт, который часто повторяется</p>
-                    <p class="mt-2 text-lg font-semibold">
-                      «Почему блестит уже через 2 часа?»
-                    </p>
-                    <p class="mt-2 text-sm text-white/70">
-                      Сценарий чаще не один — мы найдём ваш.
-                    </p>
-                  </div>
-                  <div class="shrink-0 h-10 w-10 rounded-2xl glass grid place-items-center">
-                    <span class="text-xl">✨</span>
-                  </div>
-                </div>
-
-                <div class="mt-6 grid grid-cols-2 gap-3">
-                  <div class="glass rounded-2xl p-4">
-                    <p class="text-xs text-white/60">Время до блеска</p>
-                    <p class="mt-1 font-bold">2–3 часа</p>
-                  </div>
-                  <div class="glass rounded-2xl p-4">
-                    <p class="text-xs text-white/60">Чувство стянутости</p>
-                    <p class="mt-1 font-bold">да / нет</p>
-                  </div>
-                </div>
-
-                <div class="mt-6 rounded-2xl glass p-4 flex items-center gap-4">
-                  <div class="h-12 w-12 rounded-2xl bubble grid place-items-center floaty">
-                    <span class="text-2xl">🫧</span>
-                  </div>
-                  <div class="text-sm text-white/75">
-                    В гайде: как отличить “жирную” от “обезвоженной жирной” и перестать усугублять.
-                  </div>
-                </div>
-              </div>
-
-              <div class="mt-5 flex items-center justify-between text-xs text-white/60">
-                <span>PDF • план на 30 дней</span>
-                <span>Деликатный подход • без агрессии</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Что внутри -->
-      <section id="what" class="mx-auto max-w-6xl px-4 pb-10 md:pb-16">
-        <div class="glass glow rounded-3xl p-6 md:p-10">
-          <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
-            <div>
-              <h2 class="text-2xl md:text-3xl font-extrabold">Что внутри гайда</h2>
-              <p class="mt-2 text-white/70">
-                Коротко, по делу и по шагам — чтобы вы не метались между “кислоты/скрабы/сушить”.
-              </p>
-            </div>
-            <div class="text-white/70 text-sm">
-              Формат: <span class="text-white font-semibold">PDF + чек-листы</span>
-            </div>
-          </div>
-
-          <div class="mt-7 grid md:grid-cols-3 gap-4">
-            <div class="rounded-3xl bubble p-6">
-              <div class="h-12 w-12 rounded-2xl glass grid place-items-center text-2xl">🧭</div>
-              <h3 class="mt-4 font-semibold text-lg">Диагностика</h3>
-              <p class="mt-2 text-white/70 text-sm">
-                2-минутный тест + быстрые маркеры, чтобы понять тип жирности и “что ломается”.
-              </p>
-            </div>
-
-            <div class="rounded-3xl bubble p-6">
-              <div class="h-12 w-12 rounded-2xl glass grid place-items-center text-2xl">🧴</div>
-              <h3 class="mt-4 font-semibold text-lg">База ухода</h3>
-              <p class="mt-2 text-white/70 text-sm">
-                Мягкое очищение, восстановление барьера, увлажнение без перегруза — что и когда.
-              </p>
-            </div>
-
-            <div class="rounded-3xl bubble p-6">
-              <div class="h-12 w-12 rounded-2xl glass grid place-items-center text-2xl">🧪</div>
-              <h3 class="mt-4 font-semibold text-lg">Сценарии A / B / C</h3>
-              <p class="mt-2 text-white/70 text-sm">
-                Разные причины → разные действия. Подберёте сценарий и начнёте снижать блеск.
-              </p>
-            </div>
-
-            <div class="rounded-3xl bubble p-6">
-              <div class="h-12 w-12 rounded-2xl glass grid place-items-center text-2xl">🧴</div>
-              <h3 class="mt-4 font-semibold text-lg">SPF + смывание</h3>
-              <p class="mt-2 text-white/70 text-sm">
-                Как выбрать SPF для жирной кожи и как смывать так, чтобы не раздражать.
-              </p>
-            </div>
-
-            <div class="rounded-3xl bubble p-6">
-              <div class="h-12 w-12 rounded-2xl glass grid place-items-center text-2xl">🚩</div>
-              <h3 class="mt-4 font-semibold text-lg">Триггеры</h3>
-              <p class="mt-2 text-white/70 text-sm">
-                Что чаще ухудшает (частые пилинги, спирты, “до скрипа”) и чем заменить.
-              </p>
-            </div>
-
-            <div class="rounded-3xl bubble p-6">
-              <div class="h-12 w-12 rounded-2xl glass grid place-items-center text-2xl">📅</div>
-              <h3 class="mt-4 font-semibold text-lg">План на 30 дней</h3>
-              <p class="mt-2 text-white/70 text-sm">
-                Пошаговая схема: что вводить, когда ждать изменения, как не сорваться в “агрессию”.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Что получите в итоге -->
-      <section id="result" class="mx-auto max-w-6xl px-4 pb-10 md:pb-16">
-        <h2 class="text-center text-2xl md:text-3xl font-extrabold">Что вы получите в итоге</h2>
-        <p class="mt-2 text-center text-white/70 max-w-3xl mx-auto">
-          Не “ещё один список средств”, а понятная логика и система, которую легко повторять.
-        </p>
-
-        <div class="mt-8 grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
-          <!-- Кружки-иконки -->
-          <div class="glass glow rounded-3xl p-4 text-center">
-            <div class="mx-auto h-20 w-20 rounded-full bubble grid place-items-center text-3xl">🧭</div>
-            <h3 class="mt-3 font-semibold">Диагностика</h3>
-            <p class="mt-1 text-xs text-white/70">Базовые ошибки + ваш сценарий</p>
-          </div>
-
-          <div class="glass glow rounded-3xl p-4 text-center">
-            <div class="mx-auto h-20 w-20 rounded-full bubble grid place-items-center text-3xl">🧴</div>
-            <h3 class="mt-3 font-semibold">База ухода</h3>
-            <p class="mt-1 text-xs text-white/70">Что оставить, что убрать</p>
-          </div>
-
-          <div class="glass glow rounded-3xl p-4 text-center">
-            <div class="mx-auto h-20 w-20 rounded-full bubble grid place-items-center text-3xl">🧪</div>
-            <h3 class="mt-3 font-semibold">A/B/C</h3>
-            <p class="mt-1 text-xs text-white/70">Как действовать по типу</p>
-          </div>
-
-          <div class="glass glow rounded-3xl p-4 text-center">
-            <div class="mx-auto h-20 w-20 rounded-full bubble grid place-items-center text-3xl">🛡️</div>
-            <h3 class="mt-3 font-semibold">SPF</h3>
-            <p class="mt-1 text-xs text-white/70">Как выбрать и смывать</p>
-          </div>
-
-          <div class="glass glow rounded-3xl p-4 text-center">
-            <div class="mx-auto h-20 w-20 rounded-full bubble grid place-items-center text-3xl">🚩</div>
-            <h3 class="mt-3 font-semibold">Триггеры</h3>
-            <p class="mt-1 text-xs text-white/70">Если жжёт/сыпет/хуже</p>
-          </div>
-        </div>
-      </section>
-
-      <!-- Цена / CTA -->
-      <section id="price" class="mx-auto max-w-6xl px-4 pb-12 md:pb-20">
-        <div class="grid lg:grid-cols-2 gap-6 items-stretch">
-          <div class="glass glow rounded-3xl p-7 md:p-10">
-            <h2 class="text-2xl md:text-3xl font-extrabold">Как выглядит гайд</h2>
-            <p class="mt-2 text-white/70">
-              Внутри — аккуратные схемы, короткие объяснения и понятные шаги.
-              Можно открыть на телефоне или распечатать.
-            </p>
-
-            <!-- Имитация “пачки листов” -->
-            <div class="mt-7 relative">
-              <div class="absolute -left-2 top-6 w-64 h-40 rounded-2xl glass opacity-40 rotate-[-10deg]"></div>
-              <div class="absolute left-6 top-10 w-64 h-40 rounded-2xl glass opacity-50 rotate-[-4deg]"></div>
-              <div class="relative w-full max-w-md rounded-3xl bubble p-6">
-                <div class="flex items-center justify-between">
-                  <div>
-                    <p class="text-xs text-white/60">PDF-гайд</p>
-                    <p class="mt-1 text-lg font-semibold">Жирная кожа лица</p>
-                  </div>
-                  <div class="h-10 w-10 rounded-2xl glass grid place-items-center">📘</div>
-                </div>
-
-                <div class="mt-5 grid grid-cols-2 gap-3 text-sm">
-                  <div class="glass rounded-2xl p-3">
-                    <p class="text-white/60 text-xs">Раздел</p>
-                    <p class="font-semibold">Диагностика</p>
-                  </div>
-                  <div class="glass rounded-2xl p-3">
-                    <p class="text-white/60 text-xs">Раздел</p>
-                    <p class="font-semibold">План 30 дней</p>
-                  </div>
-                  <div class="glass rounded-2xl p-3">
-                    <p class="text-white/60 text-xs">Раздел</p>
-                    <p class="font-semibold">SPF</p>
-                  </div>
-                  <div class="glass rounded-2xl p-3">
-                    <p class="text-white/60 text-xs">Раздел</p>
-                    <p class="font-semibold">Триггеры</p>
-                  </div>
-                </div>
-
-                <div class="mt-5 text-xs text-white/60">
-                  + чек-листы: “что убрать”, “что вернуть”, “как понять прогресс”.
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="glass glow rounded-3xl p-7 md:p-10 flex flex-col">
-            <div class="flex-1">
-              <h3 class="text-2xl md:text-3xl font-extrabold">Скачать полный PDF</h3>
-              <p class="mt-2 text-white/70">
-                Разовый доступ. Подходит, если вы устали от “сушки” и хотите понятную систему.
-              </p>
-
-              <div class="mt-6 rounded-3xl bubble p-6">
-                <div class="flex items-end justify-between">
-                  <div>
-                    <p class="text-sm text-white/70">Стоимость</p>
-                    <div class="mt-1 flex items-baseline gap-2">
-                      <span class="text-4xl font-extrabold">500 ₽</span>
-                      <span class="text-sm text-white/60">оплата</span>
-                    </div>
-                  </div>
-                  <div class="text-sm text-white/70 text-right">
-                    <div>Формат: PDF</div>
-                    <div class="text-white/50">Скачивание сразу</div>
-                  </div>
-                </div>
-
-                <ul class="mt-5 space-y-3 text-sm text-white/75">
-                  <li class="flex gap-2"><span class="text-emerald-300">✔</span> Диагностика и сценарий по вашей ситуации</li>
-                  <li class="flex gap-2"><span class="text-emerald-300">✔</span> База ухода без агрессивного “до скрипа”</li>
-                  <li class="flex gap-2"><span class="text-emerald-300">✔</span> План на 30 дней + трекер прогресса</li>
-                  <li class="flex gap-2"><span class="text-emerald-300">✔</span> SPF и правильное смывание</li>
-                </ul>
-
-                <!-- ВАЖНО: замените ссылку на оплату/скачивание -->
-                <a
-                  id="buyBtn"
-                  href="https://example.com/pay"
-                  class="mt-6 inline-flex w-full items-center justify-center btn-neon rounded-full px-6 py-3 glass glow text-base font-semibold"
-                >
-                  Скачать полный PDF (500 ₽)
-                </a>
-
-                <p class="mt-3 text-xs text-white/55">
-                  Замените ссылку в <code class="text-white/80">href</code> на вашу страницу оплаты/бота/сайт.
-                </p>
-              </div>
-            </div>
-
-            <div class="mt-6 text-sm text-white/60">
-              <p>
-                ⚠️ Если есть выраженное покраснение, мокнутие, сильный зуд или боль — лучше очно к дерматологу.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- FAQ -->
-      <section id="faq" class="mx-auto max-w-6xl px-4 pb-16">
-        <div class="glass glow rounded-3xl p-7 md:p-10">
-          <h2 class="text-2xl md:text-3xl font-extrabold">FAQ</h2>
-          <p class="mt-2 text-white/70">Короткие ответы на частые вопросы.</p>
-
-          <div class="mt-6 grid md:grid-cols-2 gap-4">
-            <details class="bubble rounded-3xl p-6">
-              <summary class="cursor-pointer font-semibold">Это точно для жирной кожи?</summary>
-              <p class="mt-3 text-sm text-white/70">
-                Да, но особенно полезно, если жирность усилилась после агрессивного ухода
-                (частые пилинги, “до скрипа”, спиртовые тоники).
-              </p>
-            </details>
-
-            <details class="bubble rounded-3xl p-6">
-              <summary class="cursor-pointer font-semibold">За сколько времени будет эффект?</summary>
-              <p class="mt-3 text-sm text-white/70">
-                У многих первые изменения заметны в течение 1–2 недель при восстановлении базы.
-                В гайде есть ориентиры по срокам и “что считать прогрессом”.
-              </p>
-            </details>
-
-            <details class="bubble rounded-3xl p-6">
-              <summary class="cursor-pointer font-semibold">Нужно покупать много средств?</summary>
-              <p class="mt-3 text-sm text-white/70">
-                Нет. Смысл — сократить лишнее, оставить базу, и подключать только то, что нужно вашему сценарию.
-              </p>
-            </details>
-
-            <details class="bubble rounded-3xl p-6">
-              <summary class="cursor-pointer font-semibold">Можно ли при акне?</summary>
-              <p class="mt-3 text-sm text-white/70">
-                Можно, но при выраженном воспалении лучше согласовать активы с врачом.
-                В гайде есть блок про триггеры и “когда остановиться”.
-              </p>
-            </details>
-          </div>
-
-          <div class="mt-8 flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between">
-            <div class="text-sm text-white/70">
-              Остались вопросы? Напишите — подскажу, какой сценарий ближе.
-            </div>
-            <div class="flex gap-3">
-              <!-- Замените контакты -->
-              <a class="rounded-full px-5 py-2 glass hover:glow transition text-sm font-semibold" href="https://t.me/yourname">Telegram</a>
-              <a class="btn-neon rounded-full px-5 py-2 glass glow text-sm font-semibold" href="#price">Скачать PDF</a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Footer -->
-      <footer class="pb-10">
-        <div class="mx-auto max-w-6xl px-4 text-center text-xs text-white/50">
-          <p>© <span id="year"></span> • Материал носит информационный характер и не заменяет консультацию врача.</p>
-        </div>
-      </footer>
-    </main>
-
-    <!-- Модалка “Тест (1 мин)” -->
-    <div id="quizModal" class="fixed inset-0 z-50 hidden">
-      <div class="absolute inset-0 bg-black/60"></div>
-
-      <div class="absolute inset-0 grid place-items-center p-4">
-        <div class="w-full max-w-2xl glass glow rounded-3xl overflow-hidden">
-          <div class="p-5 md:p-6 flex items-center justify-between">
-            <div>
-              <div class="text-sm text-white/70">Тест за 1 минуту</div>
-              <div class="text-xl font-extrabold">Самодиагностика</div>
-            </div>
-            <button class="h-10 w-10 rounded-2xl glass grid place-items-center hover:glow transition" data-close="quiz" aria-label="Закрыть">
-              ✕
-            </button>
-          </div>
-
-          <div class="px-5 md:px-6 pb-6">
-            <div class="rounded-3xl bubble p-5">
-              <ol class="space-y-4 text-sm text-white/80">
-                <li>
-                  <span class="font-semibold">1)</span> Умойтесь мягко (без скраба), ничего не наносите.
-                </li>
-                <li>
-                  <span class="font-semibold">2)</span> Подождите <span class="font-semibold">30–60 минут</span>.
-                </li>
-                <li>
-                  <span class="font-semibold">3)</span> Ответьте:
-                  <div class="mt-2 grid md:grid-cols-2 gap-3">
-                    <label class="glass rounded-2xl p-4 cursor-pointer">
-                      <input type="radio" name="q1" class="mr-2" />
-                      Есть стянутость / сухость, хочется “намазаться”
-                    </label>
-                    <label class="glass rounded-2xl p-4 cursor-pointer">
-                      <input type="radio" name="q1" class="mr-2" />
-                      Нет стянутости, просто быстро появляется блеск
-                    </label>
-                  </div>
-                </li>
-              </ol>
-
-              <div class="mt-5 text-xs text-white/60">
-                Это мини-версия. Полная расшифровка + сценарии и план на 30 дней — в PDF.
-              </div>
-
-              <div class="mt-5 flex flex-col sm:flex-row gap-3">
-                <a href="#price" class="btn-neon rounded-full px-6 py-3 glass glow text-sm font-semibold text-center" data-close="quiz">
-                  Перейти к PDF (500 ₽)
-                </a>
-                <button class="rounded-full px-6 py-3 glass text-sm font-semibold hover:glow transition" data-close="quiz">
-                  Закрыть
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
+    <!-- якорь для “листай вниз” -->
+    <span id="inside" style="position:absolute; left:0; top:52%; width:1px; height:1px;"></span>
   </div>
 
-  <script>
-    // Год в футере
-    document.getElementById('year').textContent = new Date().getFullYear();
-
-    // Модалка
-    const modal = document.getElementById('quizModal');
-    const openBtns = document.querySelectorAll('[data-open="quiz"]');
-    const closeBtns = document.querySelectorAll('[data-close="quiz"]');
-
-    function openModal(){
-      modal.classList.remove('hidden');
-      document.body.style.overflow = 'hidden';
-    }
-    function closeModal(){
-      modal.classList.add('hidden');
-      document.body.style.overflow = '';
-    }
-
-    openBtns.forEach(b => b.addEventListener('click', openModal));
-    closeBtns.forEach(b => b.addEventListener('click', closeModal));
-    modal.addEventListener('click', (e) => {
-      // клик по затемнению закрывает
-      if (e.target === modal.firstElementChild) closeModal();
-    });
-
-    // Пример: трекинг клика на покупку (можно удалить)
-    document.getElementById('buyBtn').addEventListener('click', () => {
-      // console.log('Buy click');
-    });
-  </script>
+  <!-- Если хочешь, можно ниже добавить реальные текстовые блоки для SEO,
+       но визуально 1-в-1 уже есть благодаря изображению. -->
 </body>
 </html>
